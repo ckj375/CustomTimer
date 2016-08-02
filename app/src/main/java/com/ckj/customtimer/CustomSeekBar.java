@@ -205,14 +205,14 @@ public class CustomSeekBar extends View {
         innerColor = new Paint();
         circleRing = new Paint();
 
-        circleColor.setColor(Color.TRANSPARENT); // Set default
+        circleColor.setColor(Color.BLUE); // Set default
         // progress
         // color to holo
         // blue
-        innerColor.setColor(Color.TRANSPARENT); // Set default background color
+        innerColor.setColor(Color.RED); // Set default background color
         // to
         // black
-        circleRing.setColor(Color.TRANSPARENT);// Set default background color
+        circleRing.setColor(Color.BLACK);// Set default background color
         // to Gray
 
         circleColor.setAntiAlias(true);
