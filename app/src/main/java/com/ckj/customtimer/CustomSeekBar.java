@@ -209,7 +209,7 @@ public class CustomSeekBar extends View {
         // progress
         // color to holo
         // blue
-        innerColor.setColor(Color.RED); // Set default background color
+        innerColor.setColor(Color.LTGRAY); // Set default background color
         // to
         // black
         circleRing.setColor(Color.BLACK);// Set default background color
@@ -369,8 +369,8 @@ public class CustomSeekBar extends View {
         int color = mContext.getResources().getColor(R.color.gray);
         canvas.rotate(mAngle, canvas.getWidth() / 2, canvas.getHeight() / 2);
         canvas.drawBitmap(progressMark,
-                canvas.getWidth() / 2 - progressMark.getWidth() / 2,
-                canvas.getHeight() / 2 - radius, null);
+                canvas.getWidth() / 2 + progressMark.getWidth() / 2,
+                canvas.getHeight() / 2 - progressMark.getWidth() / 2, null);
         Paint p = new Paint();
         p.setColor(color);
         p.setAntiAlias(true);
