@@ -10,33 +10,26 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.SweepGradient;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class CircleTimerView extends View {
 
-    private int mWhiteColor;
     private static float mStrokeSize = 4;
-    private static float mBgStrokeSize = 4;
-    /**
-     * 圆圈半径
-     */
-    private float radius;
-    private final RectF mArcRect = new RectF();
-    private Paint mBgPaint = new Paint();
-    private final Paint mPaint = new Paint();
-    private Bitmap progressMark;
-
-    private int angle = 0;
-    private boolean IS_PRESSED = false;
-
     private static final float mStep = 0.5f;
 
-    private int bgColor, startColor, endColor;
-    private SweepGradient mGradientColor;
     private int xCenter;
     private int yCenter;
+    private float radius;// 圆环半径
+    private RectF mArcRect = new RectF();
+    private Paint mFirstPaint = new Paint();
+    private Paint mSecondPaint = new Paint();
+    private Paint mThirdPaint = new Paint();
+    private Bitmap progressMark;
+    private int angle = 0;
+    private boolean IS_PRESSED = false;
+    private int bgColor, startColor, endColor, mWhiteColor;
+    private SweepGradient mGradientColor;
 
     /**
      * Listener
@@ -65,30 +58,29 @@ public class CircleTimerView extends View {
     private void init(Context c) {
         Resources resources = c.getResources();
         mStrokeSize = resources.getDimension(R.dimen.circlestopwatch_circle_size);
-        mBgStrokeSize = resources.getDimension(R.dimen.circlestopwatch_bg_circle_size);
+        mStrokeSize = resources.getDimension(R.dimen.circlestopwatch_bg_circle_size);
 
-        bgColor = resources.getColor(R.color.gray);
         startColor = resources.getColor(R.color.lightSkyBlu);
         endColor = resources.getColor(R.color.red);
         mGradientColor = new SweepGradient(xCenter, yCenter,
                 new int[]{startColor, endColor, startColor}, null);
-
-        mBgPaint.setShader(mGradientColor);
-        mBgPaint.setStyle(Paint.Style.STROKE);
-        mBgPaint.setStrokeWidth(mBgStrokeSize);
-        mBgPaint.setAntiAlias(true);
-
-        mPaint.setColor(bgColor);
-        mPaint.setAntiAlias(true);
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeWidth(mBgStrokeSize);
-
+        bgColor = resources.getColor(R.color.gray);
         mWhiteColor = resources.getColor(R.color.white);
-//        mGrayColor = resources.getColor(R.color.circle_color_grey);
-//        mBlueColor = resources.getColor(R.color.circle_color_blue);
-//        mFill.setAntiAlias(true);
-//        mFill.setStyle(Paint.Style.FILL);
-//        mFill.setColor(mBlueColor);
+
+        mFirstPaint.setShader(mGradientColor);
+        mFirstPaint.setStyle(Paint.Style.STROKE);
+        mFirstPaint.setStrokeWidth(mStrokeSize);
+        mFirstPaint.setAntiAlias(true);
+
+        mSecondPaint.setColor(bgColor);
+        mSecondPaint.setStyle(Paint.Style.STROKE);
+        mSecondPaint.setStrokeWidth(mStrokeSize);
+        mSecondPaint.setAntiAlias(true);
+
+        mThirdPaint.setColor(mWhiteColor);
+        mThirdPaint.setStyle(Paint.Style.STROKE);
+        mThirdPaint.setStrokeWidth(mStrokeSize);
+        mThirdPaint.setAntiAlias(true);
 
         progressMark = BitmapFactory.decodeResource(c.getResources(),
                 R.drawable.mark);
@@ -107,39 +99,35 @@ public class CircleTimerView extends View {
         mArcRect.bottom = yCenter + radius;
         mArcRect.left = xCenter - radius;
         mArcRect.right = xCenter + radius;
-//
-//        mBackColor = new SweepGradient(xCenter, yCenter,
-//                new int[]{startColor, endColor, startColor}, null);
-//
-//        mBackPaint.setShader(mBackColor);
     }
 
     @Override
     public void onDraw(Canvas canvas) {
         canvas.save();
         canvas.rotate(-90, xCenter, yCenter);
-        canvas.drawArc(mArcRect, 0, 360, false, mBgPaint);
+        // 渐变色圆环
+        canvas.drawArc(mArcRect, 0, 360, false, mFirstPaint);
 //
 //            int degree = (int) ((mCurrentIntervalTime / 1000) * 6);
 //            while (degree > 360) {
 //                degree -= 360;
 //            }
 
-        mPaint.setColor(bgColor);
+        // 灰色圆弧
         if (angle % 6 == 0) {
-            canvas.drawArc(mArcRect, angle, 360 - angle, false, mPaint);
+            canvas.drawArc(mArcRect, angle, 360 - angle, false, mSecondPaint);
         }
 
         //白色刻度
-        mPaint.setColor(mWhiteColor);
         for (float i = 5.7f; i < 360; i += 6f) {
-            canvas.drawArc(mArcRect, i, mStep, false, mPaint);
+            canvas.drawArc(mArcRect, i, mStep, false, mThirdPaint);
         }
 
         canvas.restore();
 
         canvas.save();
         canvas.rotate(angle, canvas.getWidth() / 2, canvas.getHeight() / 2);
+        // 转盘箭头
         canvas.drawBitmap(progressMark, canvas.getWidth() / 2 - progressMark.getWidth() / 2,
                 canvas.getHeight() / 2 - radius - progressMark.getHeight() / 2, null);
         canvas.restore();
