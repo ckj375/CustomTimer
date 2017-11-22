@@ -1,2 +1,3 @@
 # CustomTimer
-通过转动圆环来设置时间的环形倒计时效果
+通过拖动转盘箭头来设置倒计时时间,开始计时后,转盘箭头每秒转动一定角度,直至倒计时结束.
+![img](http://o6xqhzzif.bkt.clouddn.com/hexo/customtimer/demo.png)
