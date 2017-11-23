@@ -27,7 +27,6 @@ public class CircleTimerView extends View {
     private Paint mThirdPaint = new Paint();
     private Bitmap progressMark;
     private int angle = 0;
-    private boolean IS_PRESSED = false;
     private int bgColor, startColor, endColor, mWhiteColor;
     private SweepGradient mGradientColor;
 
@@ -35,7 +34,7 @@ public class CircleTimerView extends View {
      * Listener
      */
     public interface OnScrollListener {
-        public void onScroll(int angle);
+        void onScroll(int angle);
     }
 
     public OnScrollListener mScrollListener;
@@ -107,11 +106,6 @@ public class CircleTimerView extends View {
         canvas.rotate(-90, xCenter, yCenter);
         // 渐变色圆环
         canvas.drawArc(mArcRect, 0, 360, false, mFirstPaint);
-//
-//            int degree = (int) ((mCurrentIntervalTime / 1000) * 6);
-//            while (degree > 360) {
-//                degree -= 360;
-//            }
 
         // 灰色圆弧
         if (angle % 6 == 0) {
@@ -131,10 +125,8 @@ public class CircleTimerView extends View {
         canvas.drawBitmap(progressMark, canvas.getWidth() / 2 - progressMark.getWidth() / 2,
                 canvas.getHeight() / 2 - radius - progressMark.getHeight() / 2, null);
         canvas.restore();
-//        }
-//        if (mAnimate) {
+
         invalidate();
-//        }
     }
 
     @Override
@@ -165,46 +157,27 @@ public class CircleTimerView extends View {
      * @param up the up
      */
     private void moved(float x, float y, boolean up) {
-        float distance = (float) Math.sqrt(Math.pow((x - xCenter), 2)
-                + Math.pow((y - yCenter), 2));
-        if (/*distance < outerRadius + adjustmentFactor
-                && distance > innerRadius - adjustmentFactor &&*/ !up) {
-            IS_PRESSED = true;
-
-            float degrees = (float) ((float) ((Math.toDegrees(Math.atan2(
-                    x - xCenter, yCenter - y)) + 360.0)) % 360.0);
-            // and to make it count 0-360
-            if (degrees < 0) {
-                degrees += 2 * Math.PI;
-            }
-
-//            markPointX = (float) (cx + outerRadius
-//                    * Math.sin(getAngle() * Math.PI / 180));
-//            markPointY = (float) (cy - outerRadius
-//                    * Math.cos(getAngle() * Math.PI / 180));
-
-            int mAngle = Math.round(degrees);
-            int step = mAngle / 6;
-            if (mAngle - 6 * step > 0) {
-                step++;
-            }
-            mAngle = 6 * step;
-
-            setAngle(mAngle);
-            mScrollListener.onScroll(mAngle);
-            invalidate();
-        } else {
-            IS_PRESSED = false;
+        float degrees = (float) ((float) ((Math.toDegrees(Math.atan2(
+                x - xCenter, yCenter - y)) + 360.0)) % 360.0);
+        // and to make it count 0-360
+        if (degrees < 0) {
+            degrees += 2 * Math.PI;
         }
+
+        int mAngle = Math.round(degrees);
+        int step = mAngle / 6;
+        if (mAngle - 6 * step > 0) {
+            step++;
+        }
+        mAngle = 6 * step;
+
+        setAngle(mAngle);
+        mScrollListener.onScroll(mAngle);
+        invalidate();
     }
 
     public void setAngle(int angle) {
         this.angle = angle;
-//        float donePercent = (((float) this.angle) / 360) * 100;
-//        float progress = (donePercent / 100) * getMaxProgress();
-//        setProgressPercent(Math.round(donePercent));
-//        CALLED_FROM_ANGLE = true;
-//        setProgress(Math.round(progress));
     }
 
 }
