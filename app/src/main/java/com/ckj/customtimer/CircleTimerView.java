@@ -133,17 +133,15 @@ public class CircleTimerView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
-        boolean up = false;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                moved(x, y, up);
+                moved(x, y);
                 break;
             case MotionEvent.ACTION_MOVE:
-                moved(x, y, up);
+                moved(x, y);
                 break;
             case MotionEvent.ACTION_UP:
-                up = true;
-                moved(x, y, up);
+                moved(x, y);
                 break;
         }
         return true;
@@ -154,9 +152,8 @@ public class CircleTimerView extends View {
      *
      * @param x  the x
      * @param y  the y
-     * @param up the up
      */
-    private void moved(float x, float y, boolean up) {
+    private void moved(float x, float y) {
         float degrees = (float) ((float) ((Math.toDegrees(Math.atan2(
                 x - xCenter, yCenter - y)) + 360.0)) % 360.0);
         // and to make it count 0-360
