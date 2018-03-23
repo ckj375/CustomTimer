@@ -22,13 +22,13 @@ public class CircleTimerView extends View {
     private int yCenter;
     private float radius;// 圆环半径
     private RectF mArcRect = new RectF();
-    private Paint mFirstPaint = new Paint();
-    private Paint mSecondPaint = new Paint();
-    private Paint mThirdPaint = new Paint();
-    private Bitmap progressMark;
-    private int angle = 0;
+    private Paint mFirstPaint;
+    private Paint mSecondPaint;
+    private Paint mThirdPaint;
     private int bgColor, startColor, endColor, mWhiteColor;
     private SweepGradient mGradientColor;
+    private Bitmap progressMark;
+    private int angle = 0;
 
     /**
      * Listener
@@ -66,16 +66,19 @@ public class CircleTimerView extends View {
         bgColor = resources.getColor(R.color.gray);
         mWhiteColor = resources.getColor(R.color.white);
 
+        mFirstPaint = new Paint();
         mFirstPaint.setShader(mGradientColor);
         mFirstPaint.setStyle(Paint.Style.STROKE);
         mFirstPaint.setStrokeWidth(mStrokeSize);
         mFirstPaint.setAntiAlias(true);
 
+        mSecondPaint = new Paint();
         mSecondPaint.setColor(bgColor);
         mSecondPaint.setStyle(Paint.Style.STROKE);
         mSecondPaint.setStrokeWidth(mStrokeSize);
         mSecondPaint.setAntiAlias(true);
 
+        mThirdPaint = new Paint();
         mThirdPaint.setColor(mWhiteColor);
         mThirdPaint.setStyle(Paint.Style.STROKE);
         mThirdPaint.setStrokeWidth(mStrokeSize);
@@ -147,12 +150,6 @@ public class CircleTimerView extends View {
         return true;
     }
 
-    /**
-     * Moved.
-     *
-     * @param x  the x
-     * @param y  the y
-     */
     private void moved(float x, float y) {
         float degrees = (float) ((float) ((Math.toDegrees(Math.atan2(
                 x - xCenter, yCenter - y)) + 360.0)) % 360.0);

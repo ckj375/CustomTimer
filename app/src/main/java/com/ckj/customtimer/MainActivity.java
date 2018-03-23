@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
     private Button startBtn;
     private Button cancelBtn;
     private int leftTime = 0;
-
     private TimerTask timerTask;
     private Timer timer;
     private Handler handler = new Handler() {
