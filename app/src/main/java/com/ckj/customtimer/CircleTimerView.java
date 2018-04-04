@@ -54,17 +54,17 @@ public class CircleTimerView extends View {
         init(context);
     }
 
-    private void init(Context c) {
-        Resources resources = c.getResources();
-        mStrokeSize = resources.getDimension(R.dimen.circlestopwatch_circle_size);
-        mStrokeSize = resources.getDimension(R.dimen.circlestopwatch_bg_circle_size);
+    private void init(Context context) {
+        Resources res = context.getResources();
+        mStrokeSize = res.getDimension(R.dimen.circlestopwatch_circle_size);
+        mStrokeSize = res.getDimension(R.dimen.circlestopwatch_bg_circle_size);
 
-        startColor = resources.getColor(R.color.lightSkyBlu);
-        endColor = resources.getColor(R.color.red);
+        startColor = res.getColor(R.color.lightSkyBlu);
+        endColor = res.getColor(R.color.red);
         mGradientColor = new SweepGradient(xCenter, yCenter,
                 new int[]{startColor, endColor, startColor}, null);
-        bgColor = resources.getColor(R.color.gray);
-        mWhiteColor = resources.getColor(R.color.white);
+        bgColor = res.getColor(R.color.gray);
+        mWhiteColor = res.getColor(R.color.white);
 
         mFirstPaint = new Paint();
         mFirstPaint.setShader(mGradientColor);
@@ -84,7 +84,7 @@ public class CircleTimerView extends View {
         mThirdPaint.setStrokeWidth(mStrokeSize);
         mThirdPaint.setAntiAlias(true);
 
-        progressMark = BitmapFactory.decodeResource(c.getResources(),
+        progressMark = BitmapFactory.decodeResource(context.getResources(),
                 R.drawable.mark);
     }
 
@@ -134,17 +134,17 @@ public class CircleTimerView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float x = event.getX();
-        float y = event.getY();
+        float evX = event.getX();
+        float evY = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                moved(x, y);
+                moved(evX, evY);
                 break;
             case MotionEvent.ACTION_MOVE:
-                moved(x, y);
+                moved(evX, evY);
                 break;
             case MotionEvent.ACTION_UP:
-                moved(x, y);
+                moved(evX, evY);
                 break;
         }
         return true;
